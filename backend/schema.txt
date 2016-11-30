@@ -1,0 +1,34 @@
+users 
+	UserID: int(10) primary key
+	Username : char(25), user-created login 
+	Password: char(25)
+
+library 
+	UserID: int(10) foreign key to users, primary key
+	SongID: int(10) foreign key to songs, primary key
+ 	
+songs
+	songID: int(10) primary key
+	ArtistID: int(10) foreign key to artists
+	title: char(100)
+	ReleaseID: int(10) foreign key to release relation
+	Pathname: char(100) //name of audio file
+
+release
+	ReleaseID: int(10) primary key
+	Title: char(100)
+	LabelName: char(50)
+	ReleaseDate: date
+
+
+artist
+	ArtistID: int(10) primary key
+	ArtistName: char(100)
+
+playlists 
+	PlaylistID: int primary key 
+	Username: int foreign key to users
+	Pathname: char(25) //filename of list of song ids describing playlist
+
+
+
