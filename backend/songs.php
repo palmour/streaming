@@ -7,13 +7,18 @@
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $post = json_decode(file_get_contents("php://input"), true);
 
-	    if(is_null($post['action'])||is_null($post['Username'])){
+	    if(is_null($post['action'])){
 
 		    header("HTTP/1.1 400 Bad Request");
 		    print("Format Not Recognized.");
-	    }else{
+	    }else if(!isset($_COOKIE['LOGIN'])){
+            header("HTTP/1.1 401 Acess Denied");
+            print("User not logged in");
+        }
+        else{
             $action = $post['action'];
-            $username = $post['username'];
+
+            $username = $_SESSION['username'];
             $playlist = $post['playlist'];
             $playlist_title = $post['playlist_title'];
 
