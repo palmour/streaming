@@ -1,7 +1,8 @@
 <?php
     session_start();
-    require_once(db_connect);
-    require_once(Library);
+    require_once('db_connect.php');
+    require_once('Library.php');
+    require_once('Playlist.php');
 
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $post = json_decode(file_get_contents("php://input"), true);
@@ -16,7 +17,7 @@
             $playlist = $post['playlist'];
             $playlist_title = $post['playlist_title'];
 
-            $mysqli = db_connect::getMysqli("palmour", "CH@ngemenow99Please!palmour");
+            $mysqli = db_connect::getMysqli();
 
             $response = array();
 
@@ -49,15 +50,14 @@
                     exit();
                 }
 
-                $sqlrequest = "SELECT filename FROM playlists WHERE Title = \"".$playlist."\" AND Username = \"".$username."\"";
-                $result = $mysqli->query($sqlrequest);
+                $result = Playlist::getPlaylist();
                 if(!$result){
                     $response['number'] = 0;
                     $response['status'] = "Empty";
                     print(json_encode($response));
                 }
-                $filename_row = $result->fetch_assoc();
-                $response['Filename'] = $filename_row['Filename'];
+
+                $response['Filename'] = $result.getPathname();
                 $result->close();
 
                 header("Content-type: application/json");
@@ -73,10 +73,8 @@
                     print(json_encode($response));
                     exit();
                 }
-                $playlist_path = "Playlists/".$username."/".$playlist_title.".txt";
 
-                $sqlrequest = "INSERT INTO playlists (Title, Username, Filename) VALUES (\"".$playlist_title."\", \"".$username."\", \"".$playlist_path."\")";
-                $result = $mysqli->query($sqlrequest);
+                $result = Playlist::create($username, $playlist_title);
                 if(!$result){
                     $response['status'] = "createPlaylist failed";
                     header("HTTP/1.1 500 Internal Server Error");
@@ -84,8 +82,10 @@
                     exit();
                 }
 
-                $response['status'] = "OK";
-                $response['affected'] = $mysqli->affected_rows;
+                $response['username'] = $result.getUsername();
+                $response['title'] = $result.getTitle();
+                $response['pathname'] = $result.getPathname();
+                $response['id'] = $result.getID();
                 header("Content-Type: application/json");
 			    print(json_encode($response)); 
                 $mysqli->close();
