@@ -20,7 +20,7 @@ if(check_password($username, $password)){
     header('Content-type: application/json');
 
     $_SESSION['username'] = $username;
-    $_SESSION['authsalt'] = time();
+    $_SESSION['authsalt'] = $salthash;
 
     $auth_cookie_val = md5($_SESSION['username'] . $_SERVER['REMOTE_ADDR'] . $_SESSION['authsalt']);
 
