@@ -25,7 +25,7 @@ if(check_password($username, $password)){
     $auth_cookie_val = md5($_SESSION['username'] . $_SERVER['REMOTE_ADDR'] . $_SESSION['authsalt']);
 
     setcookie('LOGIN', $auth_cookie_val, 0, 
-        "/afs/cs.unc.edu/proj/courses/comp426-f16/public_html/users/palmour/final_project", "wwwp.classroom.cs.unc.edu", 
+        "www.cs.unc.edu/Courses/comp426-f16/users/palmour/final_project", "wwwp.classroom.cs.unc.edu", 
         true);
     print(json_encode(true));
 } else{

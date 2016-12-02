@@ -11,9 +11,11 @@
 
 		    header("HTTP/1.1 400 Bad Request");
 		    print("Format Not Recognized.");
+            exit();
 	    }else if(!isset($_COOKIE['LOGIN'])){
             header("HTTP/1.1 401 Acess Denied");
             print("User not logged in");
+            exit();
         }
         else{
             $action = $post['action'];
