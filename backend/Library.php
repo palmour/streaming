@@ -11,10 +11,15 @@
         }
 
         public static function create($un){
-            __construct($un);
+            if(is_null($un)){return null;}
+            return new Library($un);
         }
 
-        public function populateSongInfo(){
+        //fills the $songs attribute of the Library object.
+        //$songs is an array of arrays. Each array contains the SongID, ArtistID, Title, 
+        //and ReleaseID for a given song in the library 
+        //returns true if successful and false otherwise
+        public function populateSongInfo(){ 
            $mysqli = db_connect::getMysqli();
             $sqlrequest = "SELECT SongID FROM library WHERE Username = \"".$this->$username."\"";
             $result = $mysqli->query($sqlrequest);
@@ -39,7 +44,7 @@
                 $artist_name_result = $mysqli->query($sqlrequest);
 
                 if($artist_name_result){
-                    return null;
+                    return false;
                 }
 
                 $artist_name_row = $artist_name_result->fetch_assoc();
@@ -48,7 +53,7 @@
                 $release_title_result = $mysqli->query($sqlrequest);
 
                 if($release_title_result){
-                    return null;
+                    return false;
                 }
 
                 $release_title_row = $release_title_result->fetch_assoc();
@@ -56,12 +61,23 @@
                 $i++;
             }
 
-            return $this->$all_songs = $songs;
+            $this->$all_songs = $songs;
+            return true;
         }
 
-        public function getSongs(){
+        public function getAllSongs(){
             populateSongInfo();
             return $all_songs;
+        }
+
+        public function getSongByID($sid){
+            populateSongInfo();
+            $i=0;
+            while($i<sizeof($all_songs)){
+                if($all_songs[$i]['SongID']==$sid){return $all_songs[$i];}
+                $i++;
+            }
+            return null;
         }
 
     }

@@ -1,4 +1,5 @@
 <?php
+    require_once("Users.php");
     session_start();
 
     function unique($un){
