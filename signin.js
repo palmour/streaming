@@ -16,7 +16,9 @@ $(document).ready(function(){
                 cache: false,
                 success: function(return_data){
                     alert("reached success")
-                    alert(return_data);
+                    for(var obj in return_data){
+                        alert(obj+": "+return_data[obj]);
+                    }
                     window.location.assign('main.html');
 
                 },

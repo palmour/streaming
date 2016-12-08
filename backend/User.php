@@ -38,7 +38,7 @@
 
         public static function create_hash($un, $pw){ //functions as the setter for $salthash 
             $new_salt = $un."-salt";
-            return md5($un.$new_salt);
+            return md5($pw.$new_salt);
         }
 
         public function getSalthash(){
