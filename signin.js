@@ -9,20 +9,22 @@ $(document).ready(function(){
         var password = $("#inputPassword").val(); 
         var data = {'username': inputEmail, 'password': inputPassword};
 
-        //window.location.assign('main.html');
-
         alert("before ajax");
-        $.ajax("login.php?"+"username="+username+"&password="+password, 
+        $.ajax("backend/login.php?"+"username="+username+"&password="+password, 
             {type: "GET",
                 dataType: "json",
                 cache: false,
                 success: function(return_data){
                     alert("reached success")
-                    if(return_data){alert("login successful");}
-                    else {alert("returned false");}
+                    alert(return_data);
+                    window.location.assign('main.html');
+
                 },
-            error: function(){
-                alert("login failed");
+            error: function(return_data){
+                alert("reached error");
+                for(var obj in return_data['responseJSON']){
+                    alert(obj+": "+return_data['responseJSON'][obj]);
+                }
            } 
         });  
     });

@@ -5,9 +5,9 @@
         private $username;
         private $salthash;
 
-        private function __construct($un, $salthash){
+        private function __construct($un, $sh){
             $this->username = $un;
-            $this->salthash;
+            $this->salthash = $sh;
         }
 
         public static function create($un, $pw){
@@ -42,19 +42,19 @@
         }
 
         public function getSalthash(){
-            return $this->$salthash;
+            return $this->salthash;
         }
 
         public function getUsername(){
-            return $this->$username;
+            return $this->username;
         }
 
         public function setUsername($un){
-            $this->$username = $un;
+            $this->username = $un;
         }
 
         public function getJSON(){
-            $json_obj = array('username' => $this->$username, 'salthash' => $this->$salthash);
+            $json_obj = array('username' => $this->username, 'salthash' => $this->salthash);
             return json_encode($json_obj);
         }
     }
