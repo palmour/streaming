@@ -19,6 +19,11 @@
             print("User not logged in");
             exit();
         }
+        else if($_COOKIE['LOGIN']!= md5($_SESSION['username'].$_SERVER['REMOTE_ADDR'].$_SESSION['authsalt'])){
+            header("HTTP/1.1 401 Acess Denied");
+            print("User not logged in");
+            exit();
+        }
         else{
             $action = $post['action'];
             $username = $_SESSION['username'];
@@ -124,7 +129,15 @@
 
             else if($action=='addToLibrary'){
                 $id = $post['songid'];
+                $response['songid'] = $id; 
+                $response['username'] = $username;
+                
                 $result = Library::addSong($username, $id);
+                if(!$result){
+                    header('Content-type: application/json');
+                    header('HTTP/1.1 505 you suck');
+                    print(json_encode($result));
+                }
                 header("Content-type: application/json");
                 print(json_encode($result));
             }

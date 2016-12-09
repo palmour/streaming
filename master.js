@@ -54,21 +54,27 @@ $(document).ready(function(){
 
     });
 
-    $("td.add").click(function(){
-        var send_data = {};
-        send_data['action'] = "addToLibrary";
-        send_data['songid'] = $this.parent("td.songid").text();
-        alert(send_data['songid']);
+    $(".table tbody").on("click", "td.add", function(){
+        var send_data2= {};
+        send_data2['action'] = "addToLibrary";
+        send_data2['songid'] = $(this).parent().find('span.songid').text();
+        alert(send_data2['songid']);
         $.ajax("backend/songs.php", 
         {
             type: "POST",
             dataType: "json",
-            data: JSON.stringify(send_data),
-            success: function(){
-
+            data: JSON.stringify(send_data2),
+            success: function(return_data){
+                alert("success");
+                for(var obj in return_data){
+                    alert(obj+": "+return_data[obj]);
+                }
             },
-            error: function(){
-
+            error: function(return_data){
+                alert("error");
+                for(var obj in return_data){
+                    alert(obj+": "+return_data[obj]);
+                }
             }
         });
     });

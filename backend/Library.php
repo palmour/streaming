@@ -20,8 +20,9 @@
 
         public static function addSong($un, $song_id){
             $mysqli = db_connect::getMysqli();
-            $insert = "INSERT INTO library (Username, SongID) VALUES (\"".$username."\", ".$song_id.")";
+            $insert = "INSERT IGNORE INTO library (Username, SongID) VALUES (\"".$un."\", ".$song_id.")";
             $result = $mysqli->query($insert);
+            if(is_null($result)){return false;}
             
             return $result;
         }
