@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var $song_table = $(".table-responsive");
+    var $song_table = $(".table-responsive tbody");
     $song_table.empty();
 
     $("#sign-out").click(function(){

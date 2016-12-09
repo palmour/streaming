@@ -1,8 +1,12 @@
 <?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
     session_start();
     require_once('db_connect.php');
     require_once('Library.php');
     require_once('Playlist.php');
+    require_once('Artist.php');
+    require_once('Release.php');
 
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $post = json_decode(file_get_contents("php://input"), true);
@@ -21,8 +25,6 @@
             $action = $post['action'];
 
             $username = $_SESSION['username'];
-            $playlist = $post['playlist'];
-            $playlist_title = $post['playlist_title'];
 
             $mysqli = db_connect::getMysqli();
 
@@ -49,6 +51,9 @@
             }
             
             else if ($action=='getPlaylist'){
+
+                $playlist = $post['playlist'];
+                $playlist_title = $post['playlist_title'];
             
                 if(is_null($playlist)){
                     header("HTTP/1.1 400 Bad Request");
@@ -74,6 +79,10 @@
             }
 
             else if($action=='createPlaylist'){
+
+                $playlist = $post['playlist'];
+                $playlist_title = $post['playlist_title'];
+
                 if(is_null($playlist_title)){
                     header("HTTP/1.1 400 Bad Request");
                     $response['status'] = "Playlist title null for createPlaylist";
@@ -98,6 +107,45 @@
                 $mysqli->close();
                 exit();
 
+            }
+
+            else if($action=='getMaster'){
+                
+                $master_result = $mysqli->query("SELECT * FROM songs");
+                header("Content-type: application/json");
+                if($master_result->num_rows < 1){
+                    $response['status'] = "No songs";
+                    print(json_encode($response));
+                    exit();
+                }
+               
+                $i=0;
+                while($row = $master_result->fetch_assoc()){
+                    $artist_obj = Artist::getArtistById($row['ArtistID']);
+                    if(is_null($artist_obj)){
+                       $response['status'] = 'Artist not found';
+                       print(json_encode($response));
+                       exit(); 
+                    }
+                    $release_obj = Release::getReleaseById($row['ReleaseID']);
+                    if(is_null($release_obj)){
+                        $response['status'] = "Release not found";
+                        print(json_encode($response));
+                        exit();
+                    }
+                    $response[$i]= array();
+                    $response[$i]['SongID'] = $row['SongID'];
+                    $response[$i]['ArtistID'] = $row['ArtistID'];
+                    $response[$i]['Artist'] = $artist_obj->getName();
+                    $response[$i]['Title'] = $row['Title'];
+                    $response[$i]['ReleaseID'] = $row['ReleaseID'];
+                    $response[$i]['Release'] = $release_obj->getTitle();
+                    $response[$i]['Pathname'] = $row['Pathname'];
+                    $i++;
+                }
+
+                print(json_encode($response));
+                exit();
             }
         }
     }

@@ -1,5 +1,5 @@
 <?php
-    require_once('db_connect');
+    require_once('db_connect.php');
     require_once('Song.php');
     require_once('Artist.php');
     require_once('Release.php');

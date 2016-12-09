@@ -1,5 +1,5 @@
 <?php
-    require_once(db_connect);
+    require_once('db_connect.php');
 
     class Playlist{
         private $username;
