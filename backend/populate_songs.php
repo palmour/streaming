@@ -12,19 +12,33 @@
 
     function scan($depth, $dir){
         $files = scandir($dir);
-
+        echo "New directory: ".$dir.PHP_EOL;
         $i=0; 
         while($i<sizeof($files)){
-            if($depth==1){
-                Artist::create($files[$i]);
-                scan(2, $dir.$files[$i]);
-            }
-            else if($depth==2){
-                Release::create($files[$i]);
-                scan(3, $dir.$files[$i]);
-            }
-            else if($depth==3){
-                Song::create($files[$i]);
+            $name = $files[$i];
+            
+            if(($name!=".")&&($name!="..")){
+                
+                if($depth==1){
+                    $new_artist = Artist::create($name);
+                    echo "Artist: ";
+                    if(is_null($new_artist)){echo " (null)".PHP_EOL;}
+                    else{echo " ".$new_artist->getName().PHP_EOL;}
+                    scan(2, $dir."/".$name);
+                }
+                else if($depth==2){
+                    $new_release = Release::create($name);
+                    echo "Release: ";
+                    if(is_null($new_release)){echo " (null)".PHP_EOL;}
+                    else{echo " ".$new_release->getTitle().PHP_EOL;}
+                    scan(3, $dir."/".$name);
+                }
+                else if($depth==3){
+                    $new_song = Song::create($dir."/".$name);
+                    echo "Song: ";
+                    if(is_null($new_song)){echo " (null)"." ".$dir."/".$name.PHP_EOL;}
+                    else{echo " ".$new_song->getTitle().PHP_EOL;}
+                }
             }
             $i++;   
         }

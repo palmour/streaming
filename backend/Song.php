@@ -11,24 +11,26 @@
         private $pathname;
 
         private function __construct($id, $title, $artist_id, $release_id, $pathname){
-            $this->$song_id = $id;
+            $this->song_id = $id;
             $this->title = $title;
             $this->artist_id = $artist_id;
             $this->release_id = $release_id;
             $this->pathname = $pathname;
         }
 
-        public static function create($release_date, $pathname){
+        public static function create($pathname){
 
             $exists = Song::getSongByPath($pathname);
             if(!is_null($exists)){return $exists;}
-            
+
             $mysqli = db_connect::getMysqli();
 
+            //assumes pathname of the form: "../master_library/artist/release/song
+
             $path_array = explode("/", $pathname);
-            $artist_name = $path_array[0];
-            $release_title = $path_array[1];
-            $song_title = $path_array[2];
+            $artist_name = $path_array[2];
+            $release_title = $path_array[3];
+            $song_title = $path_array[4];
 
             $artist_obj = Artist::getArtistByName($artist_name);
             if(is_null($artist_obj)){
@@ -40,7 +42,7 @@
 
             $release_obj = Release::getReleaseByTitle($release_title);
             if(is_null($release_obj)){
-                $release_obj = Release::create($release_title, $release_date);
+                $release_obj = Release::create($release_title);
                 if(is_null($release_obj)){return null;}
             }
 
@@ -48,7 +50,8 @@
 
             $insert_query = "INSERT INTO songs (ArtistID, Title, ReleaseID, Pathname) VALUES (".$artist_id.", \"".$song_title."\", ".$release_id.", \"".$pathname."\")";
             $result = $mysqli->query($insert_query);
-            if(is_null($result)){return null;}
+            $mysqli->close();
+            if(!$result){return null;}
 
             return Song::getSongByPath($pathname);
         }
@@ -57,6 +60,8 @@
             $mysqli = db_connect::getMysqli();
             $query = "SELECT * FROM songs WHERE Pathname = \"".$path."\"";
             $result = $mysqli->query($query);
+            $mysqli->close();
+            if($result->num_rows < 1){return null;}
             $row = $result->fetch_assoc();
 
             return new Song($row['SongID'], $row['Title'], $row['ArtistID'], $row['ReleaseID'], $row['Pathname']);
@@ -66,6 +71,8 @@
             $mysqli = db_connect::getMysqli();
             $query = "SELECT * FROM songs WHERE SongID = ".$id;
             $result = $mysqli->query($query);
+            $mysqli->close();
+            if($result->num_rows < 1){return null;}
             $row = $result->fetch_assoc();
 
             return new Song($row['SongID'], $row['Title'], $row['ArtistID'], $row['ReleaseID'], $row['Pathname']);

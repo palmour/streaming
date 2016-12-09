@@ -12,20 +12,25 @@
             $this->release_date = $date;
         }
 
-        public static function create($title, $date){
+        public static function create($title){
             $exists = Release::getReleaseByTitle($title);
             if(!is_null($exists)){return $exists;}
             $mysqli = db_connect::getMysqli();
-            $insert_query = "INSERT INTO releases (Title, ReleaseDate) VALUES (\"".$title."\", \"".$date."\")";
+            $insert_query = "INSERT INTO releases (Title) VALUES (\"".$title."\")";
             $result = $mysqli->query($insert_query);
-            return getReleaseByTitle($title);
+            $mysqli->close();
+            if(!$result){return null;}
+            return Release::getReleaseByTitle($title);
         }
 
         public static function getReleaseByTitle($title){
             $mysqli = db_connect::getMysqli();
             $query = "SELECT * FROM releases WHERE Title = \"".$title."\"";
             $result = $mysqli->query($query);
+            $mysqli->close();
+            if($result->num_rows < 1){return null;}
             $row = $result->fetch_assoc();
+        
             return new Release($row['ReleaseID'], $row['Title'], $row['ReleaseDate']);
         }
 
@@ -33,7 +38,9 @@
             $mysqli = db_connect::getMysqli();
             $query = "SELECT * FROM releases WHERE ReleaseID = ".$id;
             $result = $mysqli->query($query);
+            if($result->num_rows < 1){$mysqli->close(); return null;}
             $row = $result->fetch_assoc();
+            $mysqli->close();
             return new Release($row['ReleaseID'], $row['Title'], $row['ReleaseDate']);
         }
 

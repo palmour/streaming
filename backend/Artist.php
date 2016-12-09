@@ -17,6 +17,7 @@
             $id;
             $insert_query = "INSERT INTO artists (ArtistName) VALUES(\"".$name."\")";
             $result = $mysqli->query($insert_query);
+            $mysqli->close();
             if($result){
                 return Artist::getArtistByName($name);
             }
@@ -27,22 +28,24 @@
             $mysqli = db_connect::getMysqli();
             $get_artist = "SELECT * FROM artists WHERE ArtistID = ".$id;
             $result = $mysqli->query($get_artist);
-            if($result){
-                $row = $result->fetch_assoc();
-                return new Artist($row['ArtistName'], $row['ArtistID']);
-            }
-            return null;
+            $mysqli->close();
+            if($result->num_rows < 1){return null;}
+            
+            $row = $result->fetch_assoc();
+            return new Artist($row['ArtistName'], $row['ArtistID']);
+            
         }
 
         public static function getArtistByName($name){
             $mysqli = db_connect::getMysqli();
-            $get_artist = "SELECT ArtistID FROM artists WHERE ArtistName =\"".$name."\"";
-            $result = $mysqli->query($get_id);
-            if($result){
-                $row = $result->fetch_assoc();
-                return new Artist($row['ArtistName'], $row['ArtistID']);
-            }
-            return null;
+            $get_artist = "SELECT * FROM artists WHERE ArtistName =\"".$name."\"";
+            $result = $mysqli->query($get_artist);
+            $mysqli->close();
+            if($result->num_rows < 1){return null;}
+            
+            $row = $result->fetch_assoc();
+            return new Artist($row['ArtistName'], $row['ArtistID']);
+           
         }
 
         public function getName(){return $this->artist_name;}
