@@ -10,9 +10,7 @@
 
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $post = json_decode(file_get_contents("php://input"), true);
-
 	    if(is_null($post['action'])){
-
 		    header("HTTP/1.1 400 Bad Request");
 		    print("Format Not Recognized.");
             exit();
@@ -23,15 +21,11 @@
         }
         else{
             $action = $post['action'];
-
             $username = $_SESSION['username'];
-
             $mysqli = db_connect::getMysqli();
-
             $response = array();
 
             if($action=='getLibrary'){
-
                 $lib_obj = Library::create($username);
                 $songs = $lib_obj->getSongs();
                 if(is_null($songs)){
@@ -43,7 +37,6 @@
                 $response['songs'] = $songs;
                 $response['number'] = sizeof($songs);
                 $response['status'] = "OK";
-
                 header("Content-type: application/json");
                 print(json_encode($response));
                 $mysqli->close();
@@ -61,23 +54,19 @@
                     print(json_encode($response));
                     exit();
                 }
-
                 $result = Playlist::getPlaylist();
                 if(!$result){
                     $response['number'] = 0;
                     $response['status'] = "Empty";
                     print(json_encode($response));
                 }
-
                 $response['Filename'] = $result.getPathname();
                 $result->close();
-
                 header("Content-type: application/json");
                 print(json_encode($result));
                 $mysqli->close();
                 exit();
             }
-
             else if($action=='createPlaylist'){
 
                 $playlist = $post['playlist'];
@@ -89,7 +78,6 @@
                     print(json_encode($response));
                     exit();
                 }
-
                 $result = Playlist::create($username, $playlist_title);
                 if(!$result){
                     $response['status'] = "createPlaylist failed";
@@ -97,43 +85,29 @@
                     print(json_encode($response));
                     exit();
                 }
-
                 $response['username'] = $result.getUsername();
                 $response['title'] = $result.getTitle();
                 $response['pathname'] = $result.getPathname();
                 $response['id'] = $result.getID();
-                header("Content-Type: application/json");
+                header("Content-type: application/json");
 			    print(json_encode($response)); 
                 $mysqli->close();
                 exit();
-
             }
 
             else if($action=='getMaster'){
                 
-                $master_result = $mysqli->query("SELECT * FROM songs");
-                header("Content-type: application/json");
-                if($master_result->num_rows < 1){
+                $result = $mysqli->query("SELECT * FROM songs");
+                if($result->num_rows < 1){
                     $response['status'] = "No songs";
-                    print(json_encode($response));
-                    exit();
+                    header("Content-type: application/json");
+                    print(json_encode($response)); exit();
                 }
-               
                 $i=0;
-                while($row = $master_result->fetch_assoc()){
+                while($row = $result->fetch_assoc()){
+                    $response[$i] = array();
                     $artist_obj = Artist::getArtistById($row['ArtistID']);
-                    if(is_null($artist_obj)){
-                       $response['status'] = 'Artist not found';
-                       print(json_encode($response));
-                       exit(); 
-                    }
                     $release_obj = Release::getReleaseById($row['ReleaseID']);
-                    if(is_null($release_obj)){
-                        $response['status'] = "Release not found";
-                        print(json_encode($response));
-                        exit();
-                    }
-                    $response[$i]= array();
                     $response[$i]['SongID'] = $row['SongID'];
                     $response[$i]['ArtistID'] = $row['ArtistID'];
                     $response[$i]['Artist'] = $artist_obj->getName();
@@ -143,9 +117,16 @@
                     $response[$i]['Pathname'] = $row['Pathname'];
                     $i++;
                 }
-
+                
+                header('Content-type: application/json');
                 print(json_encode($response));
-                exit();
+            }
+
+            else if($action=='addToLibrary'){
+                $id = $post['songid'];
+                $result = Library::addSong($username, $id);
+                header("Content-type: application/json");
+                print(json_encode($result));
             }
         }
     }

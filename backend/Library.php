@@ -18,6 +18,14 @@
             return new Library($un);
         }
 
+        public static function addSong($un, $song_id){
+            $mysqli = db_connect::getMysqli();
+            $insert = "INSERT INTO library (Username, SongID) VALUES (\"".$username."\", ".$song_id.")";
+            $result = $mysqli->query($insert);
+            
+            return $result;
+        }
+
         //fills the $songs attribute of the Library object.
         //$songs is an array of arrays. Each array contains the SongID, ArtistID, Title, 
         //and ReleaseID for a given song in the library 
