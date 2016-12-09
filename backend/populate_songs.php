@@ -27,9 +27,9 @@
                     scan(2, $dir."/".$name);
                 }
                 else if($depth==2){
-                    $new_release = Release::create($name);
+                    $new_release = Release::create(strval($name));
                     echo "Release: ";
-                    if(is_null($new_release)){echo " (null)".PHP_EOL;}
+                    if(is_null($new_release)){echo " (null) ".$name.PHP_EOL;}
                     else{echo " ".$new_release->getTitle().PHP_EOL;}
                     scan(3, $dir."/".$name);
                 }

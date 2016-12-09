@@ -13,8 +13,8 @@
         }
 
         public static function create($title){
-            $exists = Release::getReleaseByTitle($title);
-            if(!is_null($exists)){return $exists;}
+            //$exists = Release::getReleaseByTitle($title);
+            //if(!is_null($exists)){return $exists;}
             $mysqli = db_connect::getMysqli();
             $insert_query = "INSERT INTO releases (Title) VALUES (\"".$title."\")";
             $result = $mysqli->query($insert_query);
