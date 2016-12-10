@@ -39,5 +39,9 @@ $(document).ready(function(){
         }
 
     });
+
+    $('.table tbody').on('click', 'tr', function(){
+        //$('div.current-song a').attr('href', )
+    });
     
 });
