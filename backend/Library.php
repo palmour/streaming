@@ -55,33 +55,13 @@
                 $i++;
             }
 
-            $i=0;
-            while($i<sizeof($songs)){
-                $artist_obj = Artist::getArtistById();
-
-                if($artist_obj){
-                    return false;
-                }
-
-                $songs[$i]['ArtistName']= $artist_obj->getName();
-
-                $release_obj = Release::getReleaseById(); 
-
-                if($release_obj){
-                    return false;
-                }
-
-                $songs[$i]['ReleaseTitle'] = $release_obj->getTitle();
-                $i++;
-            }
-
-            $this->$all_songs = $songs;
+            $this->all_songs = $songs;
             return true;
         }
 
         public function getAllSongs(){
             Library::populateSongInfo();
-            return $all_songs;
+            return $this->all_songs;
         }
 
         public function getSongByID($sid){
