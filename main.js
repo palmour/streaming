@@ -1,3 +1,4 @@
+var url_base = "https://wwwp.cs.unc.edu/Courses/comp426-f16/users/palmour/final_project/";
 $(document).ready(function(){
 
     var $table = $(".table-responsive tbody"); $table.empty();
@@ -42,8 +43,23 @@ $(document).ready(function(){
     });
 
     $('.table tbody').on('click', 'tr', function(){
-        //$('div.current-song a').attr('href', )
+        var pathname = $(this).find('span.path').text();
+        pathname = pathname.slice(3);
+        pathname = url_base.concat(pathname);
+        alert(pathname);
+        var title = $(this).find('span.title').text();
+        var artist = $(this).find('td.artist').text();
+        /*soundManager.createSound({
+                        id: title,
+                        url: pathname
+        });
+        soundManager.play(title); */
+        
+        $('li.current-song a').attr('href', pathname);
+        alert(pathname);
+        $('li.current-song').find('span.info').html('<b>'+artist+'</b> - '+title); 
     });
+
     
     var lib_data = {};
     lib_data['action'] = 'getLibrary';
@@ -56,9 +72,9 @@ $(document).ready(function(){
             alert('success');
             for(var obj in return_data){
                 var song = return_data[obj];
-                contents = contents.concat('<tr><td></td><td>'+song['Title']+'<span class="hide songid">'+song['SongID']+
-                '</span><span class="hide path">'+song['Pathname']+'</span></td><td>'+song['Artist']+'</td><td>'+
-                song['Release']+'</td><td></td></tr>');
+                contents = contents.concat('<tr><td></td><td><span class="title">'+song['Title']+
+                '</span><span class="hide songid">'+song['SongID']+'</span><span class="hide path">'+song['Pathname']+
+                '</span></td><td class="artist">'+song['Artist']+'</td><td>'+song['Release']+'</td><td></td></tr>');
             }
 
             $table.html(contents);

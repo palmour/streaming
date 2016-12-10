@@ -229,11 +229,11 @@
 
           if (ok) {
 
-            dom.duration.innerHTML = getTime(this.duration, true);
+            dom.duration.innerHTML = getTime(this.duration, true); 
 
           } else if (this._iO && this._iO.onerror) {
 
-            this._iO.onerror();
+            this._iO.onerror(); 
 
           }
 
