@@ -1,6 +1,7 @@
 $(document).ready(function(){
-    var $song_table = $(".table-responsive tbody");
-    $song_table.empty();
+
+    var $table = $(".table-responsive tbody"); $table.empty();
+    var contents = "";
 
     $("#sign-out").click(function(){
         $.ajax("backend/logout.php", 
@@ -44,4 +45,30 @@ $(document).ready(function(){
         //$('div.current-song a').attr('href', )
     });
     
+    var lib_data = {};
+    lib_data['action'] = 'getLibrary';
+    $.ajax("backend/songs.php",
+    {
+        type: "POST", 
+        dataType: "json",
+        data: JSON.stringify(lib_data),
+        success: function(return_data){
+            alert('success');
+            for(var obj in return_data){
+                var song = return_data[obj];
+                contents = contents.concat('<tr><td></td><td>'+song['Title']+'<span class="hide songid">'+song['SongID']+
+                '</span><span class="hide path">'+song['Pathname']+'</span></td><td>'+song['Artist']+'</td><td>'+
+                song['Release']+'</td><td></td></tr>');
+            }
+
+            $table.html(contents);
+        }, 
+        error: function(return_data){
+            alert("error");
+            for(var obj in return_data){
+                alert(obj+": "+return_data[obj]);
+            }
+        }
+        
+    });
 });

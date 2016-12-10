@@ -67,7 +67,7 @@
             return new Song($row['SongID'], $row['Title'], $row['ArtistID'], $row['ReleaseID'], $row['Pathname']);
         }
 
-        public static function getSongById(){
+        public static function getSongById($id){
             $mysqli = db_connect::getMysqli();
             $query = "SELECT * FROM songs WHERE SongID = ".$id;
             $result = $mysqli->query($query);
