@@ -39,11 +39,8 @@
                     print($response);
                 }
         
-                $response['songs'] = $songs;
-                $response['number'] = sizeof($songs);
-                $response['status'] = "OK";
                 header("Content-type: application/json");
-                print(json_encode($response));
+                print(json_encode($songs));
                 $mysqli->close();
                 exit();
             }

@@ -39,4 +39,23 @@ $(document).ready(function(){
         }
 
     });
+
+    var lib_data = {};
+    lib_data['action'] = 'getLibrary';
+    $.ajax("backend/songs.php",
+    {
+        type: "POST", 
+        dataType: "json",
+        data: JSON.stringify(lib_data),
+        success: function(return_data){
+            alert('success');
+        }, 
+        error: function(return_data){
+            alert("error");
+            for(var obj in return_data){
+                alert(obj+": "+return_data[obj]);
+            }
+        }
+        
+    });
 });
