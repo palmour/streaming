@@ -53,7 +53,8 @@ $(document).ready(function(){
             for(var obj in return_data){
                 var song = return_data[obj];
                 contents = contents.concat('<tr><td></td><td>'+song['Title']+'<span class="hide songid">'+song['SongID']+
-                '</span></td><td>'+song['Artist']+'</td><td>'+song['Release']+'</td><td></td></tr>');
+                '</span><span class="hide path">'+song['Pathname']+'</span></td><td>'+song['Artist']+'</td><td>'+
+                song['Release']+'</td><td></td></tr>');
             }
 
             $table.html(contents);
