@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Music Player</title>
+    <link rel="stylesheet" type="text/css" href="normalize.css" />
+  	<link rel="stylesheet" type="text/css" href="player.css" />    
+    <script src="jquery-3.1.0.js" type="text/javascript"></script>
+    <script src="jquery.audioControls.min.js"></script>
+    <script src="player.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+    <div class="mainContainer">
+    <h2>My Audio Player</h2>
+<table style="width:100%">
+<tr><td valign="top">
+	<div class="containerPlayer">
+		<div id="listContainer" class="playlistContainer">
+		<ul id="playListContainer">
+			<li data-src="https://s3.amazonaws.com/9lessonslabs/songs/Linkin+Park+-+Numb.mp3">
+				<a href="#">
+					Linkin Park - Numb
+				</a>
+			</li>
+			<li data-src="https://s3.amazonaws.com/9lessonslabs/songs/love-the-way-you-lie-rihanna-feat-eminem.mp3">
+				<a href="#">
+					Eminem - Love The Way You 
+				</a>
+			</li>
+		</ul>
+	</div>
+		<div id="playerContainer">
+		<div id="controlContainer">  
+			
+			<ul class="controls">
+			<li>
+				<a href="#" class="shuffle shuffleActive" data-attr="shuffled"></a>
+			</li>
+				<li>
+					<a href="#" class="left" data-attr="prevAudio"></a>
+				</li>
+				<li>
+					<a href="#" class="play" data-attr="playPauseAudio"></a>
+				</li>
+				<li>
+					<a href="#" class="right" data-attr="nextAudio"></a>
+				</li>
+				<li>
+					<a href="#" class="repeat" data-attr="repeatSong"></a>
+				</li>
+			</ul>
+			<div class="audioDetails">
+				<span class="songPlay"></span>
+				<span data-attr="timer" class="audioTime"></span>
+			</div>
+			<div class="progress">
+				<div data-attr="seekableTrack" class="seekableTrack"></div>
+				<div class="updateProgress"></div>
+			</div>
+			
+		</div>
+		
+		<div class="volumeControl">
+			<div class="volume volume1"></div>
+			<input class="bar" data-attr="rangeVolume" type="range" min="0" max="1" step="0.1" value="0.7" />
+		</div>
+	</div>
+	</div>
+	</td>
+	<td valign='top' style='text-align:right;width:350px'>
+    </td></tr>
+	</table>
+    </div>    
+    </body>
+</html>
