@@ -1,5 +1,8 @@
 <?php
-    require_once('db_connect');
+    require_once('db_connect.php');
+    require_once('Song.php');
+    require_once('Artist.php');
+    require_once('Release.php');
 
     class Library{
         private $username;
@@ -7,12 +10,21 @@
         
         private function __construct($un){
             $this->$username = $un;
-            populateSongInfo();
+            Library::populateSongInfo();
         }
 
         public static function create($un){
             if(is_null($un)){return null;}
             return new Library($un);
+        }
+
+        public static function addSong($un, $song_id){
+            $mysqli = db_connect::getMysqli();
+            $insert = "INSERT IGNORE INTO library (Username, SongID) VALUES (\"".$un."\", ".$song_id.")";
+            $result = $mysqli->query($insert);
+            if(is_null($result)){return false;}
+            
+            return $result;
         }
 
         //fills the $songs attribute of the Library object.
@@ -25,39 +37,37 @@
             $result = $mysqli->query($sqlrequest);
             $songs = array(); $i=0;
             while($row = $result->fetch_assoc()){
-                $sqlrequest = "SELECT * FROM songs WHERE SongID = ".$row['SongID'];
-                $song_result = $mysqli->query($sqlrequest);
+
+                $song_obj = Song::getSongById($row['SongID']);
+
                 $songs[$i]= array();
                 $song_row = $song_result->fetch_assoc();
-                $songs[$i]['SongID'] = $song_row['SongID'];
-                $songs[$i]['ArtistID'] = $song_row['ArtistID'];
-                $songs[$i]['Title'] = $song_row['Title'];
-                $songs[$i]['ReleaseID'] = $song_row['ReleaseID'];
-                $songs[$i]['Pathname'] = $song_row['Pathname'];
+                $songs[$i]['SongID'] = $song_obj->getId();
+                $songs[$i]['ArtistID'] = $song_obj->getArtistId();
+                $songs[$i]['Title'] = $song_obj->getTitle();
+                $songs[$i]['ReleaseID'] = $song_obj->getReleaseId();
+                $songs[$i]['Pathname'] = $song_obj->getPathname();
 
                 $i++;
             }
 
             $i=0;
             while($i<sizeof($songs)){
-                $sqlrequest = "SELECT ArtistName FROM artists WHERE ArtistID = ".$songs[$i]['ArtistID'];
-                $artist_name_result = $mysqli->query($sqlrequest);
+                $artist_obj = Artist::getArtistById();
 
-                if($artist_name_result){
+                if($artist_obj){
                     return false;
                 }
 
-                $artist_name_row = $artist_name_result->fetch_assoc();
-                $songs[$i]['ArtistName']= $artist_name_row['ArtistName'];
-                $sqlrequest = "SELECT Title FROM releases WHERE ReleaseID = ".$songs[$i]['ReleaseID'];
-                $release_title_result = $mysqli->query($sqlrequest);
+                $songs[$i]['ArtistName']= $artist_obj->getName();
 
-                if($release_title_result){
+                $release_obj = Release::getReleaseById(); 
+
+                if($release_obj){
                     return false;
                 }
 
-                $release_title_row = $release_title_result->fetch_assoc();
-                $songs[$i]['ReleaseTitle'] = $release_title_row['Title'];
+                $songs[$i]['ReleaseTitle'] = $release_obj->getTitle();
                 $i++;
             }
 
@@ -66,12 +76,12 @@
         }
 
         public function getAllSongs(){
-            populateSongInfo();
+            Library::populateSongInfo();
             return $all_songs;
         }
 
         public function getSongByID($sid){
-            populateSongInfo();
+            Library::populateSongInfo();
             $i=0;
             while($i<sizeof($all_songs)){
                 if($all_songs[$i]['SongID']==$sid){return $all_songs[$i];}
@@ -79,6 +89,5 @@
             }
             return null;
         }
-
     }
 ?>

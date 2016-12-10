@@ -1,5 +1,5 @@
 <?php
-    require_once("Users.php");
+    require_once("User.php");
     session_start();
 
     function unique($un){
@@ -7,14 +7,19 @@
         return false;
     }
 
+    $response = array();
     $username = $_GET['username'];
     $password = $_GET['password'];
 
-    if(unique($username)){
-        header('Content-type: application/json');
-        User::create($username, $password);
-
-        print(json_encode(true)); exit();
+    header('Content-type: application/json');
+    /*if(!unique($username)){
+        $response['status'] = 'Error: username not unique';
+        print(json_encode($response)); exit();
+    } */
+    if(!is_null(User::create($username, $password))){
+        $response['status'] = 'OK';
+        print(json_encode($response)); exit();
     }
-    print(json_encode(false));
+    $response['status'] = 'Error: User::create failed';
+    print(json_encode($response)); exit();
 ?>
