@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    
+    var $library_tab = $("ul.nav-sidebar li.active");
+
     var send_data = {};
     send_data['action'] = 'getMaster';
     
@@ -44,6 +47,9 @@ $(document).ready(function(){
         var un = return_data['username'];
         if((un===undefined)||(un==null)){$(".username-header").text("Not logged in.");}
         else{$(".username-header").text("Logged in as "+un);}
+
+        alert($library_tab.children("a").text());
+        $library_tab.children("a").text(un+"\'s Library");
     },
     error: function(return_data){
         alert("error reached");
@@ -78,5 +84,25 @@ $(document).ready(function(){
             }
         });
     });
+
+    $("#sign-out").click(function(){
+        $.ajax("backend/logout.php", 
+        {type: "GET",
+            dataType: 'json',
+            cache: false,
+            success: function(){
+                window.location.assign('signin.html');
+            }, 
+            error: function(){
+                alert('logout failed');
+            }
+
+        });
+    });
+
+    $library_tab.click(function(){
+        window.location.assign("main.html");
+    });
+    
 
 });

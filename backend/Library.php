@@ -9,7 +9,7 @@
         private $all_songs;
         
         private function __construct($un){
-            $this->$username = $un;
+            $this->username = $un;
             Library::populateSongInfo();
         }
 
@@ -33,51 +33,35 @@
         //returns true if successful and false otherwise
         public function populateSongInfo(){ 
            $mysqli = db_connect::getMysqli();
-            $sqlrequest = "SELECT SongID FROM library WHERE Username = \"".$this->$username."\"";
+            $sqlrequest = "SELECT SongID FROM library WHERE Username = \"".$this->username."\"";
             $result = $mysqli->query($sqlrequest);
             $songs = array(); $i=0;
             while($row = $result->fetch_assoc()){
 
                 $song_obj = Song::getSongById($row['SongID']);
+                $artist_obj = Artist::getArtistById($song_obj->getArtistId());
+                $release_obj = Release::getReleaseById($song_obj->getReleaseId());
 
                 $songs[$i]= array();
-                $song_row = $song_result->fetch_assoc();
+               
                 $songs[$i]['SongID'] = $song_obj->getId();
                 $songs[$i]['ArtistID'] = $song_obj->getArtistId();
+                $songs[$i]['Artist'] = $artist_obj->getName();
                 $songs[$i]['Title'] = $song_obj->getTitle();
                 $songs[$i]['ReleaseID'] = $song_obj->getReleaseId();
+                $songs[$i]['Release'] = $release_obj->getTitle();
                 $songs[$i]['Pathname'] = $song_obj->getPathname();
 
                 $i++;
             }
 
-            $i=0;
-            while($i<sizeof($songs)){
-                $artist_obj = Artist::getArtistById();
-
-                if($artist_obj){
-                    return false;
-                }
-
-                $songs[$i]['ArtistName']= $artist_obj->getName();
-
-                $release_obj = Release::getReleaseById(); 
-
-                if($release_obj){
-                    return false;
-                }
-
-                $songs[$i]['ReleaseTitle'] = $release_obj->getTitle();
-                $i++;
-            }
-
-            $this->$all_songs = $songs;
+            $this->all_songs = $songs;
             return true;
         }
 
         public function getAllSongs(){
             Library::populateSongInfo();
-            return $all_songs;
+            return $this->all_songs;
         }
 
         public function getSongByID($sid){

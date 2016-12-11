@@ -16,10 +16,25 @@
         $response['status'] = 'Error: username not unique';
         print(json_encode($response)); exit();
     } */
-    if(!is_null(User::create($username, $password))){
-        $response['status'] = 'OK';
+    $user= User::create($username, $password);
+
+    $_SESSION['username'] = $username;
+    $_SESSION['authsalt'] = $user->getSalthash();
+
+    if(is_null($user)){
+        $response['status'] = 'Error: User::create failed';
         print(json_encode($response)); exit();
     }
-    $response['status'] = 'Error: User::create failed';
+
+    $auth_cookie_val = md5($_SESSION['username'] . $_SERVER['REMOTE_ADDR'] . $_SESSION['authsalt']);
+
+    setcookie('LOGIN', $auth_cookie_val, 0, 
+        "wwwp.cs.unc.edu/Courses/comp426-f16/users/palmour/final_project", "wwwp.cs.unc.edu", 
+        true);
+
+
+    $response['status'] = 'OK';
     print(json_encode($response)); exit();
+    
+    
 ?>

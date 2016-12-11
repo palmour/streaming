@@ -32,18 +32,15 @@
 
             if($action=='getLibrary'){
                 $lib_obj = Library::create($username);
-                $songs = $lib_obj->getSongs();
+                $songs = $lib_obj->getAllSongs();
                 if(is_null($songs)){
                     $response['stats'] = "error";
                     header("HTTP/1.1 500 Internal Server Error");
-                    print($response);
+                    print(json_encode($response));
                 }
         
-                $response['songs'] = $songs;
-                $response['number'] = sizeof($songs);
-                $response['status'] = "OK";
                 header("Content-type: application/json");
-                print(json_encode($response));
+                print(json_encode($songs));
                 $mysqli->close();
                 exit();
             }
