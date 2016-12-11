@@ -29,7 +29,7 @@
                 if($i<sizeof($title_array)-1){$filename = $filename."-";}
                 $i++;
             }
-            $pn = "../music/playlists/".$un."/".$filename.".txt";
+            $pn = "../playlists/".$un."/".$filename.".txt";
 
             $file = fopen($pn, "w");
             fclose($file);
@@ -44,7 +44,7 @@
             $id_assoc = $id_result->fetch_assoc();
             $id = $id_assoc['PlaylistID'];
 
-            return new Playlist($un, $tl, $pn, $id);
+            return getPlaylist($un, $tl);
         }
 
         public static function getPlaylist($un, $tl){
@@ -57,6 +57,16 @@
             if(!$get_result){return null;}
             $get_assoc = $get_result->fetch_assoc();
             return new Playlist($get_assoc['Username'], $get_assoc['Title'], $get_assoc['Pathname'], $get_assoc['PlaylistID']);
+        }
+
+        public static function getPlaylistById($id){
+            $mysqli = db_connect::getMysqli();
+
+            $query = "SELECT * FROM playlists WHERE PlaylistID = ".$id;
+            $result = $mysqli->query($query);
+            if($result->num_rows != 1){return null;}
+            $assoc = $result->fetch_assoc();
+            return new Playlist($assoc['Username'], $assoc['Title'], $assoc['Pathname'], $assoc['PlaylistID']);
         }
 
         public function addSong($sid){

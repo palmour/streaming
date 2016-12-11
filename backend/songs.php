@@ -93,8 +93,23 @@
                 $response['id'] = $result.getID();
                 header("Content-type: application/json");
 			    print(json_encode($response)); 
-                $mysqli->close();
                 exit();
+            }
+
+            else if($action=='addSong'){
+                $song_id = $post['songid'];
+                $playlist_id = $post['playlistid'];
+                if(is_null($song_id)||is_null($playlist_id)){
+                    header("Content-type: application/json");
+                    header("HTTP/1.1 400 Bad Request");
+                    print(json_encode(false)); exit();
+                }
+
+                $playlist_obj = getPlaylistById($id);
+                $playlist_obj->addSong($song_id);
+                header("Content-type: application/json");
+                print(json_encode(true)); exit();
+
             }
 
             else if($action=='getMaster'){
