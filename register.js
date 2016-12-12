@@ -9,10 +9,25 @@ $(document).ready(function(){
         var password = $("#inputPassword").val(); 
         var password1 = $("#inputPassword1").val();
         var data = {'username': inputEmail, 'password': inputPassword};
-        
-        if (username == "" || password == ""){
-            alert("One or more fields not entered.");
-        }else{
+
+        if((username.length==0)&&(password.length==0)){
+            $("p.red").text("Please enter a username and password");
+            return;
+        }
+
+        if(username.length==0){
+            $("p.red").text("Please enter a username"); return;
+        }
+
+        if(password.length==0){
+            $("p.red").text("Please enter a password"); return;
+        }
+
+        if(password.length<5){
+            $("p.red").text("Password should be at least 5 characters long."); return;
+        }
+
+
         //window.location.assign('main.html');
 
         /*$.ajax("login.php?"+"username="+username+"&password="+password, 

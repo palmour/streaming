@@ -33,10 +33,10 @@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <script src="https://oss.maxcdn.com/espond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="jquery-3.1.0.js"></script>
-    <script src="playlist.js"></script>
+    <script src="create_playlist.js"></script>
   </head>
 
   <body>
@@ -73,15 +73,18 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
             <div><form id="playlistName">
             <input type="tex" placeholder="Name your playlist..."> 
           </form>
          <button class="btn" id="save" type="save">Save</button>
         </div>
+
           <h1 class="page-header"></h1>
           <h5 class="username-header"></h5>
-          <div class="row placeholders">
-            <div id="newPlaylist">
+
+            <h2 class="sub-header">Playlist</h2>
+            <div class="table-responsive">
             <table class="table table-striped" id="playlistTable">
               <thead>
                 <tr>
@@ -90,7 +93,6 @@
                   <th>Artist</th>
                   <th>Album</th>
                   <th></th>
-
                 </tr>
               </thead>
               <tbody>
@@ -98,12 +100,11 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-          </div>
+        </div>
 
           <h2 class="sub-header">Songs</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
+          <div class="table-responsive-master">
+            <table class="table table-striped" id="masterTable">
               <thead>
                 <tr>
                   <th>#</th>
@@ -111,7 +112,6 @@
                   <th>Artist</th>
                   <th>Album</th>
                   <th></th>
-
                 </tr>
               </thead>
               <tbody>

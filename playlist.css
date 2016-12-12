@@ -88,7 +88,7 @@ tr:hover td{
     background-color: lightsteelblue;
 }
 
-input[type="tex"]{
+#playlist_input{
     height: 50px;
     font-size: 30px;
     width: 500px;
@@ -111,6 +111,7 @@ input[type="tex"]{
     color:white;
     font-size: 25px;
     margin-top: -50px;
+
 }
 /*
  * Placeholder dashboard ideas
@@ -118,7 +119,7 @@ input[type="tex"]{
 
 .placeholders {
   margin-bottom: 30px;
-  text-align: center;
+/*  text-align: center;*/
 }
 .placeholders h4 {
   margin-bottom: 0;

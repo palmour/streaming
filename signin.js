@@ -14,7 +14,6 @@ $(document).ready(function(){
                 dataType: "json",
                 cache: false,
                 success: function(return_data){
-                    
                     window.location.assign('main.html');
 
                 },
