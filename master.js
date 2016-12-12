@@ -26,9 +26,6 @@ $(document).ready(function(){
             $table.html(contents);
         }, 
         error: function(return_data){
-            for(var obj in return_data){
-                
-            }
             alert("error loading songs");
         }
 
@@ -39,10 +36,6 @@ $(document).ready(function(){
     dataType: "json",
     cache: false, 
     success: function(return_data){
-        alert("success reached");
-        for(var obj in return_data){
-            
-        }
 
         var un = return_data['username'];
         if((un===undefined)||(un==null)){$(".username-header").text("Not logged in.");}
@@ -53,9 +46,6 @@ $(document).ready(function(){
     },
     error: function(return_data){
         alert("error reached");
-        for(var obj in return_data){
-            
-        }
     }
 
     });
@@ -71,16 +61,9 @@ $(document).ready(function(){
             dataType: "json",
             data: JSON.stringify(send_data2),
             success: function(return_data){
-                alert("success");
-                for(var obj in return_data){
-                    
-                }
             },
             error: function(return_data){
                 alert("error");
-                for(var obj in return_data){
-                    
-                }
             }
         });
     });

@@ -24,10 +24,7 @@ $(document).ready(function(){
         dataType: "json",
         cache: false, 
         success: function(return_data){
-            alert("success reached");
-            for(var obj in return_data){
-                
-            }
+           
 
             var un = return_data['username'];
             if((un===undefined)||(un==null)){$(".page-header").text("Not logged in.");}
@@ -35,9 +32,7 @@ $(document).ready(function(){
         },
         error: function(return_data){
             alert("error reached");
-            for(var obj in return_data){
-                
-            }
+            
         }
 
     });
@@ -56,7 +51,6 @@ $(document).ready(function(){
         soundManager.play(title); */
         
         $('li.current-song a').attr('href', pathname);
-        alert(pathname);
         $('li.current-song').find('span.info').html('<b>'+artist+'</b> - '+title); 
     });
 
@@ -69,7 +63,6 @@ $(document).ready(function(){
         dataType: "json",
         data: JSON.stringify(lib_data),
         success: function(return_data){
-            alert('success');
             for(var obj in return_data){
                 var song = return_data[obj];
                 contents = contents.concat('<tr><td></td><td><span class="title">'+song['Title']+
@@ -81,9 +74,7 @@ $(document).ready(function(){
         }, 
         error: function(return_data){
             alert("error");
-            for(var obj in return_data){
-                
-            }
+            
         }
         
     });
@@ -119,9 +110,6 @@ $(document).ready(function(){
             $table.html(contents);
         }, 
         error: function(return_data){
-            for(var obj in return_data){
-                
-            }
             alert("error loading songs");
         }
 

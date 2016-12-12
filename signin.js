@@ -15,18 +15,12 @@ $(document).ready(function(){
                 dataType: "json",
                 cache: false,
                 success: function(return_data){
-                    alert("reached success")
-                    for(var obj in return_data){
-                        alert(obj+": "+return_data[obj]);
-                    }
+                    
                     window.location.assign('main.html');
 
                 },
             error: function(return_data){
                 alert("reached error");
-                for(var obj in return_data['responseJSON']){
-                    alert(obj+": "+return_data['responseJSON'][obj]);
-                }
            } 
         });  
     });
