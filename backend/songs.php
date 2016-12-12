@@ -65,7 +65,7 @@
                 $response['Filename'] = $result.getPathname();
                 $result->close();
                 header("Content-type: application/json");
-                print(json_encode($result));
+                print(json_encode($response));
                 $mysqli->close();
                 exit();
             }

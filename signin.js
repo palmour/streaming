@@ -15,7 +15,7 @@ $(document).ready(function(){
                 dataType: "json",
                 cache: false,
                 success: function(return_data){
-                    alert("reached success")
+                    alert("reached success");
                     for(var obj in return_data){
                         alert(obj+": "+return_data[obj]);
                     }
