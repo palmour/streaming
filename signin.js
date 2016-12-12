@@ -9,7 +9,6 @@ $(document).ready(function(){
         var password = $("#inputPassword").val(); 
         var data = {'username': inputEmail, 'password': inputPassword};
 
-        alert("before ajax");
         $.ajax("backend/login.php?"+"username="+username+"&password="+password, 
             {type: "GET",
                 dataType: "json",

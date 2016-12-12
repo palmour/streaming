@@ -120,3 +120,19 @@ span.hide{
 .add:hover{
     cursor: pointer;
 }
+
+#playlist1:hover{
+    cursor: pointer;
+}
+
+.lighten{
+    opacity: 0.4;
+}
+
+.return{
+    opacity: 1.0;
+}
+
+.clicked{
+    background-color: lightsteelblue;
+}

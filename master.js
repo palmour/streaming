@@ -110,7 +110,7 @@ $(document).ready(function(){
                 for (var i=0; i<length; i++){
                     result = result.concat(song['Title'][i]);
                 }
-                if (searched == result){
+                if (searched.toUpperCase() == result.toUpperCase()){
                 contents = contents.concat('<tr><td></td><td>'+song['Title']+'<span class="hide songid">'+song['SongID']+
                 '</span></td><td>'+song['Artist']+'</td><td>'+song['Release']+'</td><td class="add"><img src="icon_plus_big.png" width="30" height="30" class="img-responsive" alt="Generic placeholder thumbnail"></td></tr>');
                 }
@@ -126,6 +126,11 @@ $(document).ready(function(){
         }
 
     });
+    });
+    
+    $table.on("click", ".add", function(){        
+        var plus = $(this).find("img");
+        plus.addClass('lighten');
     });
 
 });

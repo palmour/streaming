@@ -41,9 +41,11 @@ $(document).ready(function(){
         var pathname = $(this).find('span.path').text();
         pathname = pathname.slice(3);
         pathname = url_base.concat(pathname);
-        alert(pathname);
         var title = $(this).find('span.title').text();
         var artist = $(this).find('td.artist').text();
+        $table.find("tr").removeClass('clicked');
+        $(this).addClass('clicked');
+        
         /*soundManager.createSound({
                         id: title,
                         url: pathname
@@ -79,6 +81,10 @@ $(document).ready(function(){
         
     });
     
+    $("#playlist1").click(function(){
+        window.location.assign("playlist.html");
+    });
+    
     $("#search").keyup(function(){
         contents = "";
         var searched = $("#search").val();
@@ -100,7 +106,7 @@ $(document).ready(function(){
                 for (var i=0; i<length; i++){
                     result = result.concat(song['Title'][i]);
                 }
-                if (searched == result){
+                if (searched.toUpperCase() == result.toUpperCase()){
                 contents = contents.concat('<tr><td></td><td><span class="title">'+song['Title']+
                 '</span><span class="hide songid">'+song['SongID']+'</span><span class="hide path">'+song['Pathname']+
                 '</span></td><td class="artist">'+song['Artist']+'</td><td>'+song['Release']+'</td><td></td></tr>');
