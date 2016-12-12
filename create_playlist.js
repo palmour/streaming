@@ -37,7 +37,7 @@ $(document).ready(function () {
     $(".table tbody").on("click", "td.add", function(){
         
         var $parent = $(this).parent().html();
-        alert($parent);
+//        alert($parent);
         
         //remove (+)sign image
         var n = $parent.indexOf("<td class=\"add");

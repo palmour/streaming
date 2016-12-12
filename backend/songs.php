@@ -105,10 +105,10 @@
                     print(json_encode($response));
                     exit();
                 }
-                $response['username'] = $result.getUsername();
-                $response['title'] = $result.getTitle();
-                $response['pathname'] = $result.getPathname();
-                $response['id'] = $result.getID();
+                $response['username'] = $result->getUsername();
+                $response['title'] = $result->getTitle();
+                $response['pathname'] = $result->getPathname();
+                $response['id'] = $result->getID();
                 header("Content-type: application/json");
 			    print(json_encode($response)); 
                 exit();

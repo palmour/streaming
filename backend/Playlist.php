@@ -30,21 +30,17 @@
                 $i++;
             }
             $pn = "../playlists/".$un."/".$filename.".txt";
-
+            if(!file_exists("../playlists/".$un)){
+                mkdir("../playlists/".$un);
+            }
             $file = fopen($pn, "w");
             fclose($file);
 
-            $insert_query = "INSERT INTO playlists (Title, Username, Filename) VALUES (\"".$playlist_title."\", \"".$username."\", \"".$playlist_path."\")";
+            $insert_query = "INSERT INTO playlists (Title, Username, Pathname) VALUES (\"".$tl."\", \"".$un."\", \"".$pn."\")";
             $result = $mysqli->query($insert_query);
             if(!$result){return null;}
 
-            $retrieve_id = "SELECT PlaylistID FROM playlists WHERE Title = \"".$tl."\" AND Username = \"".$un."\"";
-            $id_result = $mysqli->query($retrieve_id);
-            if(!$id_result){return null;}
-            $id_assoc = $id_result->fetch_assoc();
-            $id = $id_assoc['PlaylistID'];
-
-            return getPlaylist($un, $tl);
+            return Playlist::getPlaylist($un, $tl);
         }
 
         public static function getPlaylist($un, $tl){
@@ -54,7 +50,7 @@
 
             $get_query = "SELECT * FROM playlists WHERE Username = \"".$un."\" AND Title = \"".$tl."\"";
             $get_result = $mysqli->query($get_query);
-            if(!$get_result){return null;}
+            if($get_result->num_rows < 1){return null;}
             $get_assoc = $get_result->fetch_assoc();
             return new Playlist($get_assoc['Username'], $get_assoc['Title'], $get_assoc['Pathname'], $get_assoc['PlaylistID']);
         }
@@ -75,13 +71,13 @@
             fclose($file);
         }
 
-        public function getUsername(){return $this->$username;}
+        public function getUsername(){return $this->username;}
 
-        public function getTitle(){return $this->$title;}
+        public function getTitle(){return $this->title;}
 
-        public function getPathname(){return $this->$pathname;}
+        public function getPathname(){return $this->pathname;}
 
-        public function getID(){return $this->$id;}
+        public function getID(){return $this->id;}
 
     }
 ?>
