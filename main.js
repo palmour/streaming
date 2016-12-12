@@ -26,7 +26,7 @@ $(document).ready(function(){
         success: function(return_data){
             alert("success reached");
             for(var obj in return_data){
-                alert(obj+": "+return_data[obj]);
+                
             }
 
             var un = return_data['username'];
@@ -36,7 +36,7 @@ $(document).ready(function(){
         error: function(return_data){
             alert("error reached");
             for(var obj in return_data){
-                alert(obj+": "+return_data);
+                
             }
         }
 
@@ -82,9 +82,49 @@ $(document).ready(function(){
         error: function(return_data){
             alert("error");
             for(var obj in return_data){
-                alert(obj+": "+return_data[obj]);
+                
             }
         }
         
+    });
+    
+    $("#search").keyup(function(){
+        contents = "";
+        var searched = $("#search").val();
+        var length = searched.length;
+        //alert(""+searched+","+length);
+         $.ajax("backend/songs.php",
+    {
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify(lib_data),
+        success: function(return_data){
+        
+            if(return_data['status']!=undefined){
+                return;
+            }
+            for(var obj in return_data){
+                var song = return_data[obj];
+                var result = "";
+                for (var i=0; i<length; i++){
+                    result = result.concat(song['Title'][i]);
+                }
+                if (searched == result){
+                contents = contents.concat('<tr><td></td><td><span class="title">'+song['Title']+
+                '</span><span class="hide songid">'+song['SongID']+'</span><span class="hide path">'+song['Pathname']+
+                '</span></td><td class="artist">'+song['Artist']+'</td><td>'+song['Release']+'</td><td></td></tr>');
+                }
+            }   
+
+            $table.html(contents);
+        }, 
+        error: function(return_data){
+            for(var obj in return_data){
+                
+            }
+            alert("error loading songs");
+        }
+
+    });
     });
 });

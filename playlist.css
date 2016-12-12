@@ -84,10 +84,6 @@ body {
   margin-top: 0;
 }
 
-tr:hover{
-    background-color: lightsteelblue;
-}
-
 tr:hover td{
     background-color: lightsteelblue;
 }

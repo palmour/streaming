@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){    
     
     var $library_tab = $("ul.nav-sidebar li.active");
 
@@ -15,7 +15,7 @@ $(document).ready(function(){
         success: function(return_data){
 
             if(return_data['status']!=undefined){
-                alert(return_data['status']); return;
+             return;
             }
             for(var obj in return_data){
                 var song = return_data[obj];
@@ -27,7 +27,7 @@ $(document).ready(function(){
         }, 
         error: function(return_data){
             for(var obj in return_data){
-                alert(obj+": "+return_data[obj]);
+                
             }
             alert("error loading songs");
         }
@@ -41,20 +41,20 @@ $(document).ready(function(){
     success: function(return_data){
         alert("success reached");
         for(var obj in return_data){
-            alert(obj+": "+return_data[obj]);
+            
         }
 
         var un = return_data['username'];
         if((un===undefined)||(un==null)){$(".username-header").text("Not logged in.");}
         else{$(".username-header").text("Logged in as "+un);}
 
-        alert($library_tab.children("a").text());
+        
         $library_tab.children("a").text(un+"\'s Library");
     },
     error: function(return_data){
         alert("error reached");
         for(var obj in return_data){
-            alert(obj+": "+return_data);
+            
         }
     }
 
@@ -64,7 +64,7 @@ $(document).ready(function(){
         var send_data2= {};
         send_data2['action'] = "addToLibrary";
         send_data2['songid'] = $(this).parent().find('span.songid').text();
-        alert(send_data2['songid']);
+        
         $.ajax("backend/songs.php", 
         {
             type: "POST",
@@ -73,17 +73,19 @@ $(document).ready(function(){
             success: function(return_data){
                 alert("success");
                 for(var obj in return_data){
-                    alert(obj+": "+return_data[obj]);
+                    
                 }
             },
             error: function(return_data){
                 alert("error");
                 for(var obj in return_data){
-                    alert(obj+": "+return_data[obj]);
+                    
                 }
             }
         });
     });
+    
+   
 
     $("#sign-out").click(function(){
         $.ajax("backend/logout.php", 
@@ -104,5 +106,43 @@ $(document).ready(function(){
         window.location.assign("main.html");
     });
     
+    $("#search").keyup(function(){
+        contents = "";
+        var searched = $("#search").val();
+        var length = searched.length;
+        //alert(""+searched+","+length);
+         $.ajax("backend/songs.php",
+    {
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify(send_data),
+        success: function(return_data){
+        
+            if(return_data['status']!=undefined){
+                return;
+            }
+            for(var obj in return_data){
+                var song = return_data[obj];
+                var result = "";
+                for (var i=0; i<length; i++){
+                    result = result.concat(song['Title'][i]);
+                }
+                if (searched == result){
+                contents = contents.concat('<tr><td></td><td>'+song['Title']+'<span class="hide songid">'+song['SongID']+
+                '</span></td><td>'+song['Artist']+'</td><td>'+song['Release']+'</td><td class="add"><img src="icon_plus_big.png" width="30" height="30" class="img-responsive" alt="Generic placeholder thumbnail"></td></tr>');
+                }
+            }   
+
+            $table.html(contents);
+        }, 
+        error: function(return_data){
+            for(var obj in return_data){
+                
+            }
+            alert("error loading songs");
+        }
+
+    });
+    });
 
 });
