@@ -8,10 +8,10 @@
         private $id;
 
         private function __construct($un, $tl, $pn, $id){
-            $this->$username = $un;
-            $this->$title = $tl;
-            $this->$pathname = $pn;
-            $this->$id = $id;
+            $this->username = $un;
+            $this->title = $tl;
+            $this->pathname = $pn;
+            $this->id = $id;
         }
 
         public static function create($un, $tl){
@@ -19,7 +19,7 @@
 
             $mysqli = db_connect::getMysqli();
 
-            if(!is_null(getPlaylist($un, $tl))){return null;}
+            if(!is_null(Playlist::getPlaylist($un, $tl))){return null;}
 
             //replace all spaces in title with "-" to get filename
             $title_array = explode(" ", $tl);

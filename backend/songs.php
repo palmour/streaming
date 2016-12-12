@@ -7,6 +7,7 @@
     require_once('Playlist.php');
     require_once('Artist.php');
     require_once('Release.php');
+    require_once('Song.php');
 
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $post = json_decode(file_get_contents("php://input"), true);
@@ -62,16 +63,33 @@
                     $response['status'] = "Empty";
                     print(json_encode($response));
                 }
-                $response['Filename'] = $result.getPathname();
+                $pathname = $result.getPathname();
                 $result->close();
+                
+                $playlist_file = fopen($pathname, "r");
+                
+                $songs = array();
+                $i=0;
+                while(!feof($playlist_file)){
+                    $songid = fgets($playlist_file);
+                    $song_obj = Song::getSongById($songid);
+                    $songs[$i] = array();
+                    $songs[$i]['Title'] = $song_obj->getTitle();
+                    $songs[$i]['ArtistID'] = $song_obj->getArtistId();
+                    $songs[$i]['Artist'] = Artist::getArtistById($song_obj->getArtistId());
+                    $songs[$i]['ReleaseID'] = $song_obj->getReleaseId();
+                    $songs[$i]['Release'] = Release::getReleaseById($song_obj->getReleaseId());
+                    $songs[$i]['Pathname'] = $song_obj->getPathname();
+                    $i++;
+                }
+                
                 header("Content-type: application/json");
-                print(json_encode($response));
+                print(json_encode($songs));
                 $mysqli->close();
                 exit();
             }
             else if($action=='createPlaylist'){
 
-                $playlist = $post['playlist'];
                 $playlist_title = $post['playlist_title'];
 
                 if(is_null($playlist_title)){
