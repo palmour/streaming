@@ -91,6 +91,26 @@ tr:hover{
 tr:hover td{
     background-color: lightsteelblue;
 }
+
+input[type="tex"]{
+    height: 50px;
+    font-size: 30px;
+    width: 500px;
+    border-width: 0px;
+}
+
+#newPlaylist{
+    margin-left: 15px;
+}
+
+#save{
+    width: 200px;
+    height: 50px;
+    background-color:#337ab7;
+    float:right;
+    color:white;
+    font-size: 25px;
+}
 /*
  * Placeholder dashboard ideas
  */

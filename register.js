@@ -7,6 +7,7 @@ $(document).ready(function(){
         e.preventDefault();
         var username = $("#inputEmail").val(); 
         var password = $("#inputPassword").val(); 
+        var password1 = $("#inputPassword1").val();
         var data = {'username': inputEmail, 'password': inputPassword};
 
         if((username.length==0)&&(password.length==0)){
@@ -26,6 +27,7 @@ $(document).ready(function(){
             $("p.red").text("Password should be at least 5 characters long."); return;
         }
 
+
         //window.location.assign('main.html');
 
         alert("before ajax");
@@ -42,6 +44,7 @@ $(document).ready(function(){
                 alert("login failed");
            } 
         }); */
+        if (password1 == password){
 
         $.ajax("backend/register.php?username="+username+"&password="+password,
         {type: "GET", 
@@ -62,5 +65,7 @@ $(document).ready(function(){
             }
 
         });
+        }else{alert("Passwords do not match.");}
+        }
     });
 });

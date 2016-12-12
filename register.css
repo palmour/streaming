@@ -33,16 +33,22 @@ body {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
+#inputPassword{
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
-.red{
-  color: red;
-  position: relative;
-  left: 100px;
+#inputPassword1{
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-bottom: 10px;
 }
 h2{
     text-align: center;
+}
+
+#reggy{
+    background-color: orange;
 }

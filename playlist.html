@@ -24,7 +24,7 @@
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="main.css" rel="stylesheet">
+    <link href="playlist.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -36,7 +36,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="jquery-3.1.0.js"></script>
-    <script src="main.js"></script>
+    <script src="playlist.js"></script>
   </head>
 
   <body>
@@ -71,28 +71,37 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="master.html">Master Library <span class="sr-only">(current)</span></a></li>
-            <li><a href="playlist.html">Make a Playlist...</a></li>
+            <li><a href="main.html">User's Library</a></li>
+            <li class="active"><a href="#">Make a Playlist... <span class="sr-only">(current)</span></a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Dashboard</h1>
+            <div><form id="playlistName">
+            <input type="tex" placeholder="Name your playlist...">
+                <button class="btn" id="save" type="save">Save</button>
+          </form>
+        </div>
+          <h1 class="page-header"></h1>
           <h5 class="username-header"></h5>
           <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder" id="playlist1">
-              <img src="icon_plus_big.png" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>You have no playlists</h4>
-              <span class="text-muted">Go make one</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder" id="playlist2">
-              
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder" id="playlist3">
-              
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder" id="playlist4">
-              
-            </div>
+            <div id="newPlaylist">
+            <table class="table table-striped" id="playlistTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Song</th>
+                  <th>Artist</th>
+                  <th>Album</th>
+                  <th></th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           </div>
 
           <h2 class="sub-header">Songs</h2>
