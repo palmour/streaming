@@ -76,15 +76,19 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <div><form id="playlistName">
+            <div class="upper-region">
+            <form id="playlistName">
             <input type="text" placeholder="Name your playlist..." id="playlist_input">
+                               <button class="btn" id="save" type="save">Save</button>
           </form>
-            <button class="btn" id="save" type="save">Save</button>
-        </div>
+ 
+            </div>
+
           <h1 class="page-header"></h1>
           <h5 class="username-header"></h5>
-          <div class="row placeholders">
-            <div id="newPlaylist">
+
+            <h2 class="sub-header">Playlist</h2>
+            <div class="table-responsive">
             <table class="table table-striped" id="playlistTable">
               <thead>
                 <tr>
@@ -93,7 +97,6 @@
                   <th>Artist</th>
                   <th>Album</th>
                   <th></th>
-
                 </tr>
               </thead>
               <tbody>
@@ -101,11 +104,10 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-          </div>
+        </div>
 
           <h2 class="sub-header">Songs</h2>
-          <div class="table-responsive">
+          <div class="table-responsive-master">
             <table class="table table-striped" id="masterTable">
               <thead>
                 <tr>
@@ -114,7 +116,6 @@
                   <th>Artist</th>
                   <th>Album</th>
                   <th></th>
-
                 </tr>
               </thead>
               <tbody>

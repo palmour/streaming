@@ -4,7 +4,7 @@ $(document).ready(function () {
     var send_data = {};
     send_data['action'] = 'getMaster';
     
-    var $table = $(".table-responsive tbody");
+    var $table = $(".table-responsive-master tbody");
     var contents = "";
     $.ajax("backend/songs.php",
     {
@@ -39,7 +39,11 @@ $(document).ready(function () {
         var $parent = $(this).parent().html();
         alert($parent);
         
-        $('#playlistTable tbody').append("<tr>"+$parent+"</tr>");
+        //remove (+)sign image
+        var n = $parent.indexOf("<td class=\"add");
+        var $new = $parent.substring(0,n);
+        
+        $('#playlistTable tbody').append("<tr>"+$new+"</tr>");
         
         
 
